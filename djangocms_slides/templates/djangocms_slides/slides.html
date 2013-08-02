@@ -1,0 +1,40 @@
+{% load sekizai_tags staticfiles %}
+<div class="djangocms-slides" id="djangocms-slides-{{ instance.pk }}">
+	<div class="wrapper clearfix">
+		<div class="viewport">
+			{% for item in items %}
+				<div class="item" style="background-image: url('{{ item.image.url }}'); background-color: {{ item.bg_color }};">
+					<div class="container-24 clearfix relative">
+						<div class="grid-24 clearfix">
+							{{ item.content|safe }}
+						</div>
+					</div>
+				</div>
+				{% with item.get_url as link %}
+				{% if link %}<a href="{{ link }}" class="link"{% if item.link_blank %} target="_blank"{% endif %}></a>{% endif %}
+				{% endwith %}
+			{% endfor %}
+		</div>
+		{% if items|length > 1 %}
+			<p class="trigger-next"><a href="#">next</a></p>
+			<p class="trigger-previous"><a href="#">prev</a></p>
+		{% endif %}
+	</div>
+	{% if items|length > 1 %}
+		<nav>
+			{% for item in items %}<a href="#">{{ forloop.counter }}</a>{% endfor %}
+		</nav>
+	{% endif %}
+</div>
+
+{% addtoblock "js" %}<script src="{% static "js/libs/class.min.js" %}"></script>{% endaddtoblock %}
+{% addtoblock "js" %}<script src="{% static 'js/plugins/cl.gallery.js' %}"></script>{% endaddtoblock %}
+{% addtoblock 'js' %}
+<script>
+jQuery(document).ready(function(){
+	var slides = new Cl.Gallery('#djangocms-slides-{{ instance.pk }}', {
+		'timeout': {{ instance.timeout|default_if_none:8 }}000
+	});
+});
+</script>
+{% endaddtoblock "js" %}

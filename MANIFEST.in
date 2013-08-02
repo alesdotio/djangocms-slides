@@ -1,0 +1,5 @@
+include LICENSE
+include README.rst
+recursive-include djangocms_slides *
+recursive-exclude * *.pyc
+prune djangocms_slides/sass
