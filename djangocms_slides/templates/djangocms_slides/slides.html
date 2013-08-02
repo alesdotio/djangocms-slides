@@ -9,10 +9,10 @@
 							{{ item.content|safe }}
 						</div>
 					</div>
+					{% with item.get_url as link %}
+					{% if link %}<a href="{{ link }}" class="link"{% if item.link_blank %} target="_blank"{% endif %}></a>{% endif %}
+					{% endwith %}
 				</div>
-				{% with item.get_url as link %}
-				{% if link %}<a href="{{ link }}" class="link"{% if item.link_blank %} target="_blank"{% endif %}></a>{% endif %}
-				{% endwith %}
 			{% endfor %}
 		</div>
 		{% if items|length > 1 %}
